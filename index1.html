@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+    <head>
+        
+        <title>
+                Ragister Account
+        </title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body >
+        <form id="loginForm">
+         <div class="container">
+                    <h2 >Create Account</h2>
+                    <input type="username" class="box" id="username" placeholder="Create username"><br><br>
+            <input type="email" class="box" id="email" placeholder="Enter your email"><br><br>
+            <input type="password" class="box" id="password" placeholder="Create a password" ><br><br>
+           <button class="btn">Register</button>
+           </div>
+          </form> 
+           <script>
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault(); // 1. Prevents the webpage from reloading/refreshing
+
+    // 2. Grabs whatever text you type inside the form inputs
+    const usernameInput = document.getElementById('username')?.value || 'Unknown';
+    const emailInput = document.getElementById('email').value;
+    const passwordInput = document.getElementById('password').value;
+
+    // 3. Packages the inputs neatly to send to Python
+    const loginData = {
+        username: usernameInput,
+        email: emailInput,
+        password: passwordInput
+    };
+
+    try {
+        // 4. Makes the digital phone call to your Flask API running on channel 5000
+        const response = await fetch('http://127.0.0.1:5000/api/login', {
+
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(loginData) // Converts the data package into text
+        });
+
+        const result = await response.json(); // Reads Python's final decision string
+
+        // 5. Shows a clean alert message based on Python's response
+        if (response.ok) {
+            alert("Success: " + result.message);
+        } else {
+            alert("Login Failed: " + result.message);
+        }
+    } catch (error) {
+        // This triggers if you closed your black terminal window by mistake
+        console.error("Connection error:", error);
+        alert("Cannot connect to your Python server! Make sure app.py is still running in your terminal.");
+    }
+});
+</script>
+
+        </body>
+   
+
+
+</html>

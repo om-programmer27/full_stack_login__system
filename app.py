@@ -1,10 +1,7 @@
-# NOTE:
-# Plain-text passwords are used only for learning purposes.
-# Password hashing will be added in a future update.
 from flask import Flask, request, jsonify
 from flask_cors import CORS 
 import mysql.connector
-
+import bcrypt
 app = Flask(__name__)
 CORS(app)
 
@@ -31,29 +28,32 @@ def handle_login_or_register():
     # STEP 1: Search your master directory 'user' table for this email
     cursor.execute("SELECT * FROM user WHERE email = %s", (submitted_email,))
     db_user = cursor.fetchone()
-    
-    login_status = "FAILED"
-    ui_message = "Invalid password."
-    http_status_code = 401
-    #below code is write externally after making webpage
-    if db_user:
-        # PATH A: The user already exists in your vault! Check their password
-        if db_user['password'] == submitted_password:
-            login_status = "SUCCESS"
-            ui_message = "Logged in successfully!"
-            http_status_code = 200
+     if(db_user):
+        if bcrypt.checkpw(submitted_password.encode('utf-8'), db_user["password"].encode('utf-8')):
+
+            login_status="success"
+            ui_message="Login "
+            http_status_code=200
         else:
-            login_status = "WRONG PASSWORD"
-            ui_message = "Incorrect password for this account."
-            http_status_code = 401
+              login_status="failed to login"
+              ui_message="Wrong password "
+              http_status_code=401 
+             
     else:
-        # PATH B: 🚀 AUTO-REGISTER! This email does not exist yet.
-        # Let's save their brand-new credentials into the 'user' table immediately.
-        register_query = """
-            INSERT INTO user (username, email, password) 
-            VALUES (%s, %s, %s)
-        """
-        cursor.execute(register_query, (submitted_username, submitted_email, submitted_password))
+
+        email=submitted_email
+        name=submitted_username
+        password=submitted_password
+
+        bytes=submitted_password.encode('utf-8')
+        salt = bcrypt.gensalt()
+        hash = bcrypt.hashpw(bytes, salt)
+        hashed_pass = hash.decode('utf-8')
+    
+        sql_query="INSERT INTO user (email, password, username)VALUES(%s,%s,%s)"
+        data_insert=(email, hashed_pass ,name)
+        cursor.execute(sql_query, data_insert)
+        print("Account Created Successfully")
         
         login_status = "ACCOUNT_AUTO_CREATED"
         ui_message = "Account created and logged in automatically!"

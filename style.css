@@ -1,5 +1,4 @@
 body{
-    
     background-color: #121212  ;
     display: flex;
     justify-content: center;   
@@ -10,9 +9,9 @@ body{
 
 
 .box {
-
     margin-left: 10px;
-       width: 350px;
+      width: 350px;
+      
         height: 50px;
     border-radius: 15px;
 
@@ -42,7 +41,7 @@ body{
             border-radius: 50px;
             display: flex; 
   flex-direction: column; /* Stacks items top-to-bottom */
-            b
+            
   
         
 }
@@ -50,5 +49,18 @@ h2{
     margin-bottom: 60px;
     font-size: 45px;
     color: #F3F4F6;
-
 }
+
+@media (max-width:600px) {
+    .box {
+           width: 250px;
+           
+    }
+}
+
+@media (max-width: 600px){
+    .header{
+       text-align:center;
+    }        
+}
+

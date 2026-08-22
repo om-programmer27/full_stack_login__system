@@ -19,13 +19,13 @@ The goal of this project is to build a simple login system that connects a front
             - HTTP Requests
             - User Login Flow
             - Database Design
-            - Password Hashing 
+            - Password Hashing
+            - Implemented a responsive UI using CSS media queries.
  this project is currently in under-development ----
  
 I plan to add new features every weekend while learning more about full-stack development.
-Successfully Added secure password hashing with bcrypt for user authentication
- ##Future features:-                 
-                    -Responsive UI
+Successfully Added responsiveness and secure password hashing with bcrypt for user authentication
+ ##Future features:- 
                     -Session Management
                     -User Registration
                     -Admin panel
@@ -39,7 +39,11 @@ Successfully Added secure password hashing with bcrypt for user authentication
 ✅ Week 2
 - Implemented secure password hashing with bcrypt
 
+
+✅ Week 3
+-Successfully Implemented a responsive UI using CSS media queries.
+
 🔜 Next Week
-- Responsive UI
-                      
+-session management
+
 Developed by Om                    
